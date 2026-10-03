@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentor AI — Expert Personas for Alexa+</title>
+  <meta name="description"
+    content="Mentor AI routes your spoken questions to expert personas — powered by Amazon Bedrock and the Model Context Protocol." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────────────── -->
+<nav aria-label="Main navigation">
+  <div class="container nav-inner">
+    <span class="nav-brand">🧠 Mentor AI</span>
+    <ul class="nav-links">
+      <li><a href="#demo">Live Demo</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#personas">Personas</a></li>
+      <li><a href="#links">Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────────────── -->
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-badge">
+      <span>🔌</span> Built for Alexa+ with MCP
+    </div>
+    <h1 id="hero-heading">Ten Expert Mentors.<br>One Spoken Question.</h1>
+    <p>
+      Mentor AI listens to your question, picks the best expert from ten AI personas,
+      and answers in short sentences optimised for speech — powered by Amazon Bedrock
+      and the open Model Context Protocol standard.
+    </p>
+    <div class="hero-cta">
+      <a href="#demo" class="btn btn-white">Try the Live Demo</a>
+      <a href="#how-it-works" class="btn btn-outline">How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Live Demo ────────────────────────────────────────────────────────── -->
+<section id="demo" aria-labelledby="demo-heading">
+  <div class="container">
+    <h2 id="demo-heading">Live Demo</h2>
+    <p>Type or speak a question. Mentor AI routes it to the right expert and reads the answer aloud.</p>
+
+    <div class="demo-card" style="margin-top:1.5rem;">
+
+      <!-- API base URL override for judges pointing at App Runner -->
+      <div class="api-url-row">
+        <label for="api-base-input">Server URL:</label>
+        <input
+          id="api-base-input"
+          type="url"
+          value="http://localhost:8000"
+          placeholder="http://localhost:8000"
+          aria-label="API base URL"
+        />
+      </div>
+
+      <label for="question-input">Your question</label>
+      <div class="input-row">
+        <input
+          id="question-input"
+          type="text"
+          placeholder="e.g. How do I raise a Series A?"
+          aria-label="Enter your question"
+          autocomplete="off"
+        />
+        <button id="mic-btn" title="Voice input" aria-label="Start voice input">🎤</button>
+      </div>
+
+      <button id="ask-btn" class="btn btn-primary">Ask →</button>
+
+      <!-- Result -->
+      <div id="result-box" class="result-box" role="region" aria-live="polite" aria-label="Answer">
+        <div id="result-persona" class="result-persona"></div>
+        <div id="result-answer" class="result-answer"></div>
+        <div id="status-line" class="status-line"></div>
+      </div>
+
+      <!-- Error -->
+      <div id="error-box" class="error-box" role="alert" aria-live="assertive"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ─────────────────────────────────────────────────────── -->
+<section id="how-it-works" aria-labelledby="how-heading">
+  <div class="container">
+    <h2 id="how-heading">How It Works</h2>
+    <p>Four steps from your voice to a spoken answer.</p>
+
+    <div class="steps" style="margin-top:2rem;">
+
+      <div class="step">
+        <div class="step-icon">🎤</div>
+        <h3>1 — Speak or Type</h3>
+        <p>Alexa+ or the web demo captures your question via voice or text input.</p>
+      </div>
+
+      <div class="flow-arrow" aria-hidden="true">→</div>
+
+      <div class="step">
+        <div class="step-icon">🔌</div>
+        <h3>2 — MCP Server</h3>
+        <p>The question is sent over Streamable HTTP to the self-hosted MCP endpoint at <code>/mcp</code>.</p>
+      </div>
+
+      <div class="flow-arrow" aria-hidden="true">→</div>
+
+      <div class="step">
+        <div class="step-icon">🧭</div>
+        <h3>3 — Persona Router</h3>
+        <p>Keyword scoring selects the best expert — VC, CTO, legal, healthcare, and seven more.</p>
+      </div>
+
+      <div class="flow-arrow" aria-hidden="true">→</div>
+
+      <div class="step">
+        <div class="step-icon">☁️</div>
+        <h3>4 — Amazon Bedrock</h3>
+        <p>The chosen persona's system prompt + your question are sent to Claude Haiku. The short, voice-ready answer is returned and read aloud.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Persona grid ──────────────────────────────────────────────────────── -->
+<section id="personas" aria-labelledby="personas-heading">
+  <div class="container">
+    <h2 id="personas-heading">Ten Expert Personas</h2>
+    <p>Click a persona to try a sample question in the demo above.</p>
+    <!-- Populated by app.js -->
+    <div id="persona-grid" class="persona-grid" style="margin-top:1.5rem;"></div>
+  </div>
+</section>
+
+<!-- ── Links ────────────────────────────────────────────────────────────── -->
+<section id="links" aria-labelledby="links-heading">
+  <div class="container">
+    <h2 id="links-heading">Resources</h2>
+    <p>Everything you need to explore, run, or extend Mentor AI.</p>
+    <div class="link-cards" style="margin-top:1.5rem;">
+      <a href="https://github.com/Rajpatel7878/mentor-ai-alexa-mcp" class="link-card" target="_blank" rel="noopener">
+        <span>🐙</span> GitHub Repository
+      </a>
+      <a href="../README.md" class="link-card">
+        <span>📦</span> Project README
+      </a>
+      <a href="http://localhost:8000/mcp" class="link-card" target="_blank" rel="noopener">
+        <span>🔌</span> MCP Endpoint (local)
+      </a>
+      <a href="http://localhost:8000/health" class="link-card" target="_blank" rel="noopener">
+        <span>💚</span> Health Check (local)
+      </a>
+      <a href="../docs/ARCHITECTURE.md" class="link-card">
+        <span>🏗️</span> Architecture Docs
+      </a>
+      <a href="../docs/DEPLOY.md" class="link-card">
+        <span>🚀</span> Deploy Guide
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p>
+      Mentor AI — Amazon Developer Hackathon 2025 &bull; Alexa+ Track &bull;
+      AWS Builder &amp; Open Source mini challenges &bull;
+      <a href="https://github.com/Rajpatel7878/mentor-ai-alexa-mcp" target="_blank" rel="noopener">GitHub</a> &bull;
+      <a href="../LICENSE">MIT License</a>
+    </p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
